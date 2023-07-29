@@ -22,17 +22,17 @@ type shopRepo interface {
 }
 
 type ShopService struct {
-	repo shopRepo
+	shopRepo     shopRepo
 }
 
-func NewShopService(repo shopRepo) *ShopService {
+func NewShopService(shopRepo shopRepo) *ShopService {
 	return &ShopService{
-		repo: repo,
+		shopRepo:     shopRepo,
 	}
 }
 
 func (s *ShopService) Signup(shop *models.ShopCreateRequest) (*models.Shop, error) {
-	shopCount, err := s.repo.CountShop(bson.D{{"email", shop.Email}})
+	shopCount, err := s.shopRepo.CountShop(bson.D{{"email", shop.Email}})
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +48,7 @@ func (s *ShopService) Signup(shop *models.ShopCreateRequest) (*models.Shop, erro
 
 	shop.Password = hashedPassword
 
-	newShop, err := s.repo.CreateNewShop(shop)
+	newShop, err := s.shopRepo.CreateNewShop(shop)
 	if err != nil {
 		return nil, err
 	}

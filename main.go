@@ -19,16 +19,19 @@ func main() {
 	db := database.NewMongoDB(dbConfig)
 
 	// open collections
-	shopCollection := db.OpenCollection("shops")
+	shopCollection := db.OpenCollection("Shops")
+	keyTokenCollection := db.OpenCollection("key_tokens")
 
 	// init repos
 	shopRepo := repositories.NewShopRepo(shopCollection)
+	keyTokenRepo := repositories.NewKeyTokenRepo(keyTokenCollection)
 
 	// init services
 	shopService := services.NewShopService(shopRepo)
+	keyTokenService := services.NewKeyTokenService(keyTokenRepo)
 
 
-	shopController := controllers.NewShopController(shopService)
+	shopController := controllers.NewShopController(shopService, keyTokenService)
 
 	// init server
 	router := gin.Default()

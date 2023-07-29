@@ -1,0 +1,2 @@
+run: 
+	compiledaemon --command='./ecom'
